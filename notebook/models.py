@@ -19,3 +19,11 @@ class Note(models.Model):
     
     def get_absolute_url(self):
         return reverse('notebook-detail', kwargs={'pk': self.pk})
+
+class ToDoTask(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    note = models.ForeignKey(Note, on_delete=models.CASCADE)
+    completed = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f"{self.note.title} - {self.user.username}"

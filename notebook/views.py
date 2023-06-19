@@ -1,8 +1,7 @@
 from django.utils import timezone
 from datetime import timedelta
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from django.contrib.auth.models import User
 from django.views.generic import (
     ListView,
     DetailView,
@@ -10,8 +9,7 @@ from django.views.generic import (
     UpdateView,
     DeleteView
 )
-from .models import Note
-from django.views import View
+from .models import Note, ToDoTask
 from django.shortcuts import render
 
 def home(request):
@@ -76,3 +74,16 @@ class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         if self.request.user == post.poster:
             return True
         return False
+    
+class ToDoListView(ListView):
+    model = ToDoTask
+    template_name = 'notebook/ToDoTask.html'  
+    context_object_name = 'tasks'
+    ordering = ['user']
+    paginate_by = 10
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        # Filter tasks by the currently logged-in user
+        queryset = queryset.filter(user=self.request.user)
+        return queryset
