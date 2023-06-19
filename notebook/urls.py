@@ -6,7 +6,6 @@ from .views import (
     PostListView,
     PostUpdateView,
 )
-from . import views
 
 urlpatterns = [
     path('', PostListView.as_view(), name='notebook-home'),

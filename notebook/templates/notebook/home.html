@@ -1,5 +1,17 @@
 {% extends "notebook/base.html" %}
 {% block content %}
+  <form method="GET" action="">
+    <div class="form-group">
+      <label for="ordering">Ordering:</label>
+        <select class="form-control" name="ordering" id="ordering">
+          <option value="new_notes">Sort by Latest Notes</option>
+          <option value="old_notes">Sort by Oldest Notes</option>
+          <option value="yesterday_notes">Posted Yesterday</option>
+          <option value="title_notes">Sort by Title</option>
+        </select>
+      </div>
+    <button type="submit" class="btn btn-primary mb-4">Apply</button>
+  </form>
     {% for note in notes %}
         <article class="media content-section">
           <img class="rounded-circle article-img" src="{{ note.poster.profile.image.url }}">
