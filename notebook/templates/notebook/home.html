@@ -1,35 +1,21 @@
 {% extends "notebook/base.html" %}
 {% block content %}
-    {% for post in posts %}
-        <article class="media content-section">s
-            <div class="media-body">
+    {% for note in notes %}
+        <article class="media content-section">
+          <img class="rounded-circle article-img" src="{{ note.poster.profile.image.url }}">
+          <div class="media-body">
             <div class="article-metadata">
-                <a class="mr-2" href="{% url 'user-posts' post.poster.username %}">{{ post.poster }}</a>
-                <small class="text-muted">{{ post.posted_date|date:"F d, Y" }}</small>
+              <a class="mr-2" href="#">{{ note.poster }}</a>
+              <small class="text-muted">{{ note.posted_date|date:"F d, Y" }}</small>
             </div>
-            <h2><a class="article-title" href="{% url 'post-detail' post.id %}">Note Title: {{ post.title }}</a></h2>
-            <p class="article-content">Description: {{ post.description }}</p>
-            <p class="article-content">Category: {{ post.category }}</p>
-            </div>
+            <h2><a class="article-title" href="{% url 'notebook-detail' note.id %}">{{ note.title }}</a></h2>
+            <p class="article-content">{{ note.description }}</p>
+            {% if note.category == "Important" %}
+            <span class="badge badge-danger">{{ note.category }}</span>
+            {% else %}
+            <span class="badge badge-secondary">{{ note.category }}</span>
+            {% endif %}
+          </div>
         </article>
     {% endfor %}
-    {% if is_paginated %}
-        {% if page_obj.has_previous %}
-            <a class="btn btn-outline-info mb-4" href="?page=1">First</a>
-            <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.previous_page_number }}">Previous</a>
-        {% endif %}
-
-        {% for num in page_obj.paginator.page_range %}
-            {% if page_obj.number == num %}
-                <a class="btn btn-info mb-4" href="?page={{ num }}">{{ num }}</a>
-            {% elif num > page.obj.num|add:'-3' and num < page.obj.num|add:'-3' %}    
-                <a class="btn btn-outline-info mb-4" href="?page={{ num }}">{{ num }}</a>
-            {% endif %}
-        {% endfor %}
-
-        {% if page_obj.has_next %}
-            <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.next_page_number }}">Next</a>
-            <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.paginator.num_pages }}">Previous</a>
-        {% endif %}
-    {% endif %}
 {% endblock content %}

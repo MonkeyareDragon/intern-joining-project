@@ -33,12 +33,12 @@
             <!-- Navbar Right Side -->
             <div class="navbar-nav">
               {% if user.is_authenticated %}
-              {% comment %} <a class="nav-item nav-link" href="{% url 'note-create' %}">New Note</a> {% endcomment %}
-              <a class="nav-item nav-link" href="{% url 'profile' %}">Profile</a>
-              <a class="nav-item nav-link" href="{% url 'logout' %}">Logout</a>
-              {% else %} 
-              <a class="nav-item nav-link" href="{% url 'login' %}">Login</a>
-              <a class="nav-item nav-link" href="{% url 'register' %}">Register</a>
+              <a class="nav-item nav-link" href="{% url 'notebook-create' %}">New Note</a>
+                <a class="nav-item nav-link" href="{% url 'profile' %}">Profile</a>
+                <a class="nav-item nav-link" href="{% url 'logout' %}">Logout</a>
+              {% else %}
+                <a class="nav-item nav-link" href="{% url 'login' %}">Login</a>
+                <a class="nav-item nav-link" href="{% url 'register' %}">Register</a>
               {% endif %}
             </div>
           </div>
@@ -50,7 +50,7 @@
         <div class="col-md-8">
           {% if messages %}
             {% for message in messages %}
-              <div class="alert alert-{{ messagge.tags }}">
+              <div class="alert alert-{{ message.tags }}">
                 {{ message }}
               </div>
             {% endfor %}

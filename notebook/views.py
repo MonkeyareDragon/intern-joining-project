@@ -23,3 +23,38 @@ class PostListView(ListView):
     context_object_name = 'notes'
     ordering = ['-posted_date']
     paginate_by = 5
+
+class PostDetailView(DetailView):
+    model = Note
+
+class PostCreateView(LoginRequiredMixin, CreateView):
+    model = Note
+    fields = ['title', 'description', 'category']
+
+    def form_valid(self, form):
+        form.instance.poster = self.request.user
+        return super().form_valid(form)
+
+class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    model = Note
+    fields = ['title', 'description', 'category']
+
+    def form_valid(self, form):
+        form.instance.poster = self.request.user
+        return super().form_valid(form)
+
+    def test_func(self):
+        post = self.get_object()
+        if self.request.user == post.poster:
+            return True
+        return False
+
+class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    model = Note
+    success_url = '/'
+
+    def test_func(self):
+        post = self.get_object()
+        if self.request.user == post.poster:
+            return True
+        return False
