@@ -11,6 +11,8 @@ from django.views.generic import (
 )
 from .models import Note, ToDoTask
 from django.shortcuts import render
+from rest_framework import generics
+from .serializers import NoteSerializer
 
 def home(request):
     context = {
@@ -87,3 +89,11 @@ class ToDoListView(ListView):
         # Filter tasks by the currently logged-in user
         queryset = queryset.filter(user=self.request.user)
         return queryset
+    
+class NoteGetCreate(generics.ListCreateAPIView):
+    queryset = Note.objects.all()
+    serializer_class = NoteSerializer
+
+class NoteUpdateDelete(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Note.objects.all()
+    serializer_class = NoteSerializer
